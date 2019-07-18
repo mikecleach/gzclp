@@ -4,9 +4,11 @@
         "noImplicitAny": true,
         "esModuleInterop": true,
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "es6",
         "outDir": "dist",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
-    }
+    },
+    "lib": ["es2015"]
 }
