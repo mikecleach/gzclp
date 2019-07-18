@@ -1,26 +1,28 @@
 {
-  "name": "gzclp",
-  "version": "1.0.0",
-  "description": "web app for tracking GZCLP weight lifting workouts",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mikecleach/gzclp.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mikecleach/gzclp/issues"
-  },
-  "homepage": "https://github.com/mikecleach/gzclp#readme",
-  "engines": {
-    "node": "10.16.0"
-  },
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+    "name": "gzclp",
+    "version": "1.0.0",
+    "description": "web app for tracking GZCLP weight lifting workouts",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index",
+        "heroku-postbuild": "cd client && npm install && npm run build",
+        "build-client": "cd client && npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mikecleach/gzclp.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mikecleach/gzclp/issues"
+    },
+    "homepage": "https://github.com/mikecleach/gzclp#readme",
+    "engines": {
+        "node": "10.16.0"
+    },
+    "dependencies": {
+        "express": "^4.17.1"
+    }
 }
