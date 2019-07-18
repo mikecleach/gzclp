@@ -19,5 +19,8 @@
   "homepage": "https://github.com/mikecleach/gzclp#readme",
   "engines": {
     "node": "10.16.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
