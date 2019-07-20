@@ -36,7 +36,10 @@ function getOrmConfig(): ConnectionOptions {
             logging: false,
             entities: ["dist/src/entity/**/*.ts"],
             migrations: ["dist/src/migration/**/*.ts"],
-            subscribers: ["dist/src/subscriber/**/*.ts"]
+            subscribers: ["dist/src/subscriber/**/*.ts"],
+            extra: {
+                ssl: true
+            }
         };
     }
 
