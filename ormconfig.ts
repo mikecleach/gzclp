@@ -34,7 +34,7 @@ function getOrmConfig(): ConnectionOptions {
             database: parsedPgOptions.database,
             synchronize: true,
             logging: false,
-            entities: ["dist/src/entity/**/*.ts"],
+            entities: ["dist/src/entity/**/*.js"],
             migrations: ["dist/src/migration/**/*.ts"],
             subscribers: ["dist/src/subscriber/**/*.ts"],
             extra: {
