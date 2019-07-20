@@ -3,12 +3,12 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "esModuleInterop": true,
+        "lib": ["es2017"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "es6",
+        "target": "ES2017",
         "outDir": "dist",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
-    },
-    "lib": ["es2015"]
+    }
 }
