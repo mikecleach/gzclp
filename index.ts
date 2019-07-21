@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 
 import { createConnection, getRepository } from "typeorm";
 import { getOrmConfig } from "./ormconfig";
@@ -24,8 +25,9 @@ app.post("/user", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("The sedulous hyena ate the antelope!");
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
+
 app.listen(port);
 
 console.log(`listening on port ${port}`);

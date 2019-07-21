@@ -1,14 +1,15 @@
 {
+    "extends": "./tsconfig.base.json",
     "compilerOptions": {
-        "sourceMap": true,
-        "noImplicitAny": true,
+        "outDir": "dist",
         "esModuleInterop": true,
-        "lib": ["es2017"],
+        "lib": ["es6"],
         "module": "commonjs",
         "moduleResolution": "node",
-        "target": "ES2017",
-        "outDir": "dist",
+        "target": "ES6",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true
-    }
+    },
+    "include": [".", "src"],
+    "exclude": ["client"]
 }
