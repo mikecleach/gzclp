@@ -1,14 +1,8 @@
 import React from "react";
+import LoginSignup from "../components/LoginSignup";
 
 const HomePage: React.FC = () => {
-    return (
-        <div>
-            <h2>Welcome to GZCLP Tracker</h2>
-            <div>
-                <p>Please login or signup</p>
-            </div>
-        </div>
-    );
+    return <LoginSignup />;
 };
 
 export default HomePage;
