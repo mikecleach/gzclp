@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, "/../client/build")));
 const port = process.env.PORT || 5000;
 app.post("/user", (req, res) => {
     let newUser = new User();
-    newUser.login = req.body.login;
+    newUser.login = req.body.username;
     newUser.email = req.body.email;
 
     getRepository(User).save(newUser);

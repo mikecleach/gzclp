@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 import "../styles/homepage.css";
 
 type LoginSignupState = {
@@ -24,7 +25,7 @@ export default class LoginSignup extends Component<{}, LoginSignupState> {
     render() {
         return (
             <div className="login-signup-container pure-u-22-24">
-                {this.state.showLogin ? <LoginForm formToggleHandler={this.toggleForms} /> : <h2>Switched!</h2>}
+                {this.state.showLogin ? <LoginForm formToggleHandler={this.toggleForms} /> : <SignupForm formToggleHandler={this.toggleForms} />}
             </div>
         );
     }
