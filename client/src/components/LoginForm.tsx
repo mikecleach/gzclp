@@ -1,23 +1,25 @@
 import React, { Component } from "react";
-import { EventEmitter } from "events";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import axios from "axios";
 
 interface LoginFormState {
     username: string;
     errorMessage: string | undefined;
+    userId: string | undefined;
 }
 
-interface LoginFormProps {
+interface LoginFormProps extends RouteComponentProps {
     formToggleHandler: () => void;
 }
 
-export default class LoginForm extends Component<LoginFormProps, LoginFormState> {
+class LoginForm extends Component<LoginFormProps, LoginFormState> {
     constructor(props: LoginFormProps) {
         super(props);
 
         this.state = {
             username: "",
-            errorMessage: undefined
+            errorMessage: undefined,
+            userId: undefined
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -41,6 +43,8 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
         try {
             let result = await axios.get(`/user/${this.state.username}`);
             console.log(result.data);
+            this.setState({ userId: result.data.id });
+            this.props.history.push(`/user/${result.data.id}`);
         } catch (error) {
             this.setState({ errorMessage: error.response.data.reason });
         }
@@ -64,3 +68,5 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
         );
     }
 }
+
+export default withRouter(LoginForm);

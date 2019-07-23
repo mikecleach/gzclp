@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToMany, JoinTable } from "typeorm";
+import { Routine } from "./Routine";
 
 @Entity()
 export class User extends BaseEntity {
@@ -10,4 +11,8 @@ export class User extends BaseEntity {
 
     @Column()
     email: string;
+
+    @ManyToMany(type => Routine, routine => routine.users)
+    @JoinTable()
+    routines: Routine[];
 }

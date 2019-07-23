@@ -5,10 +5,21 @@ import { createConnection, getRepository } from "typeorm";
 import { getOrmConfig } from "./ormconfig";
 
 import { User } from "./src/entity/User";
+import { Routine } from "./src/entity/Routine";
 
 //TODO: move express start into connection's .then
 const ormConfig = getOrmConfig();
-const dbConn = createConnection(ormConfig).catch(err => console.log("typeorm connection error:" + err));
+const dbConn = createConnection(ormConfig)
+    // .then(async connection => {
+    //     let user = await connection.getRepository(User).findOne({ where: { id: 1 }, relations: ["routines"] });
+
+    //     let routine = await connection.getRepository(Routine).findOne({ id: 2 });
+
+    //     user.routines.push(routine);
+
+    //     await user.save();
+    // })
+    .catch(err => console.log("typeorm connection error:" + err));
 
 const app = express();
 app.use(express.json());

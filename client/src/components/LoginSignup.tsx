@@ -3,9 +3,9 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import "../styles/homepage.css";
 
-type LoginSignupState = {
+interface LoginSignupState {
     showLogin: boolean;
-};
+}
 
 export default class LoginSignup extends Component<{}, LoginSignupState> {
     constructor(props: LoginSignupState) {
