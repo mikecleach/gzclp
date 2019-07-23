@@ -26,6 +26,28 @@ app.post("/user", (req, res) => {
     res.send("saved user? " + newUser);
 });
 
+app.get("/user/:login", (req, res) => {
+    let user;
+
+    let login = req.params && req.params.login;
+    if (login) {
+        getRepository(User)
+            .findOne({ login })
+            .then(result => {
+                if (typeof result === "undefined") {
+                    res.status(404).json({ reason: "User was not found." });
+                } else {
+                    res.json(result);
+                }
+            })
+            .catch(err => {
+                res.status(404).json({ reason: "getting user failed", err: err });
+            });
+    } else {
+        res.status(404).json({ reason: "no username was passed" });
+    }
+});
+
 app.get("/", (req, res) => {
     console.log("sending react index file");
 

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { EventEmitter } from "events";
+import axios from "axios";
 
 interface LoginFormState {
     username: string;
+    errorMessage: string | undefined;
 }
 
 interface LoginFormProps {
@@ -14,7 +16,8 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
         super(props);
 
         this.state = {
-            username: ""
+            username: "",
+            errorMessage: undefined
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -31,10 +34,16 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
         this.props.formToggleHandler();
     }
 
-    handleSubmit(event: React.FormEvent) {
+    async handleSubmit(event: React.FormEvent) {
         //nothing for now, eventually call api, find user, redirect to user page
+        this.setState({ errorMessage: undefined });
         event.preventDefault();
-        alert(this.state.username);
+        try {
+            let result = await axios.get(`/user/${this.state.username}`);
+            console.log(result.data);
+        } catch (error) {
+            this.setState({ errorMessage: error.response.data.reason });
+        }
     }
 
     render() {
@@ -50,6 +59,7 @@ export default class LoginForm extends Component<LoginFormProps, LoginFormState>
                 <a onClick={this.handleFormToggle} className="pure-button">
                     Signup
                 </a>
+                {this.state.errorMessage && <p className="error-message">{this.state.errorMessage}</p>}
             </div>
         );
     }
