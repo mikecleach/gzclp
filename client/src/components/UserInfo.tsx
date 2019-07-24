@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { render } from "react-dom";
+import { UserInterface } from "../interfaces/User";
 
 interface UserInfoProps {
-    id: string;
+    user: UserInterface;
 }
 
 export default class UserInfo extends Component<UserInfoProps, {}> {
@@ -13,6 +13,11 @@ export default class UserInfo extends Component<UserInfoProps, {}> {
     }
 
     render() {
-        return <div>{this.props.id}</div>;
+        return (
+            <div className="user-info-container pure-u-1">
+                <h3>{this.props.user.login}'s Dashboard</h3>
+                <p>Email: {this.props.user.email}</p>
+            </div>
+        );
     }
 }

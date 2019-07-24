@@ -1,0 +1,15 @@
+.user-page-container {
+    margin: 0 auto;
+}
+
+.user-info-container {
+    margin-top: 16px;
+    text-align: center;
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.user-routines-container {
+    border: 1px solid gray;
+    border-radius: 4px;
+}

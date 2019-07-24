@@ -42,7 +42,6 @@ class LoginForm extends Component<LoginFormProps, LoginFormState> {
         event.preventDefault();
         try {
             let result = await axios.get(`/user/${this.state.username}`);
-            console.log(result.data);
             this.setState({ userId: result.data.id });
             this.props.history.push(`/user/${result.data.id}`);
         } catch (error) {
