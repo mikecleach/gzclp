@@ -9,17 +9,7 @@ import { Routine } from "./src/entity/Routine";
 
 //TODO: move express start into connection's .then
 const ormConfig = getOrmConfig();
-const dbConn = createConnection(ormConfig)
-    // .then(async connection => {
-    //     let user = await connection.getRepository(User).findOne({ where: { id: 1 }, relations: ["routines"] });
-
-    //     let routine = await connection.getRepository(Routine).findOne({ id: 2 });
-
-    //     user.routines.push(routine);
-
-    //     await user.save();
-    // })
-    .catch(err => console.log("typeorm connection error:" + err));
+const dbConn = createConnection(ormConfig).catch(err => console.log("typeorm connection error:" + err));
 
 const app = express();
 app.use(express.json());
@@ -42,8 +32,16 @@ app.get("/user/:login", (req, res) => {
 
     let login = req.params && req.params.login;
     if (login) {
+        let whereObj;
+
+        if (isNaN(parseInt(login))) {
+            whereObj = { login };
+        } else {
+            whereObj = { id: login };
+        }
+
         getRepository(User)
-            .findOne({ login })
+            .findOne({ where: whereObj, relations: ["routines", "routines.T1", "routines.T2", "routines.T3"] })
             .then(result => {
                 if (typeof result === "undefined") {
                     res.status(404).json({ reason: "User was not found." });
