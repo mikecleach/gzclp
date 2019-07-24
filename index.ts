@@ -86,11 +86,41 @@ app.post("/workout/", (req, res) => {
         let newWorkout = new Workout();
 
         newWorkout.routine = routine;
-        newWorkout.save();
-
-        res.json({ workoutId: newWorkout.id });
+        getRepository(Workout)
+            .save(newWorkout)
+            .then(newWorkout => {
+                res.json({ workoutId: newWorkout.id });
+            });
     } else {
         res.status(404).json({ reason: "no routine id was passed" });
+    }
+});
+
+app.post("/t1set/", (req, res) => {
+    let user;
+
+    let set = req.body;
+    if (set) {
+        let t1Set = new T1set();
+
+        t1Set.order = set.order;
+        t1Set.weight = set.weight;
+        t1Set.reps = set.reps;
+        t1Set.completed = true;
+
+        getRepository(Workout)
+            .findOne({ id: set.workoutId })
+            .then(result => {
+                t1Set.workout = result;
+
+                getRepository(T1set)
+                    .save(t1Set)
+                    .then(savedSet => {
+                        res.json({ id: savedSet.id });
+                    });
+            });
+    } else {
+        res.status(404).json({ reason: "no set data was passed" });
     }
 });
 
