@@ -78,7 +78,7 @@ app.get("/user/:login", (req, res) => {
     }
 });
 
-app.post("/workout/", (req, res) => {
+app.post("/workout/", async (req, res) => {
     let user;
 
     let routine = req.body && req.body.routine;
@@ -86,11 +86,15 @@ app.post("/workout/", (req, res) => {
         let newWorkout = new Workout();
 
         newWorkout.routine = routine;
-        getRepository(Workout)
-            .save(newWorkout)
-            .then(newWorkout => {
-                res.json({ workoutId: newWorkout.id });
-            });
+        let savedWorkout = await getRepository(Workout).save(newWorkout);
+
+        let associatedRoutine = await getRepository(Routine).findOne({
+            where: {
+                id: routine
+            }
+        });
+
+        res.json({ workoutId: newWorkout.id, routine: associatedRoutine });
     } else {
         res.status(404).json({ reason: "no routine id was passed" });
     }

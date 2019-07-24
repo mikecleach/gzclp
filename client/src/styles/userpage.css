@@ -13,3 +13,16 @@
     border: 1px solid gray;
     border-radius: 4px;
 }
+
+.user-routine-container {
+    margin: 8px;
+}
+
+.user-routine-container button {
+    display: block;
+    margin: 0 auto;
+}
+
+.user-routine-container li {
+    list-style: none;
+}

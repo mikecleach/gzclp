@@ -5,6 +5,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 
 interface UserRoutinesProps extends RouteComponentProps {
     user: UserInterface;
+    userid: string;
 }
 
 class UserRoutines extends Component<UserRoutinesProps, {}> {
@@ -18,7 +19,7 @@ class UserRoutines extends Component<UserRoutinesProps, {}> {
 
     handleCreateWorkout(event: React.FormEvent) {
         const routineId = (event.target as HTMLInputElement).name;
-        this.props.history.push(`/new-workout/${routineId}`);
+        this.props.history.push(`/new-workout/${routineId}/${this.props.userid}`);
     }
 
     render() {
@@ -31,7 +32,7 @@ class UserRoutines extends Component<UserRoutinesProps, {}> {
                     <li>T2:{routine.T2.name}</li>
                     <li>T3:{routine.T3.name}</li>
                 </ul>
-                <button name={routine.id.toString()} onClick={this.handleCreateWorkout} className="pure-button">
+                <button name={routine.id.toString()} onClick={this.handleCreateWorkout} className="pure-button pure-button-primary">
                     Start Workout
                 </button>
             </div>

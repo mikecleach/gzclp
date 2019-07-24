@@ -13,7 +13,7 @@ const App: React.FC = () => {
             <div className="pure-g">
                 <Route exact path="/" component={HomePage} />
                 <Route path="/user/:id" component={UserPage} />
-                <Route path="/new-workout/:id" component={WorkoutFormPage} />
+                <Route path="/new-workout/:id/:userid" component={WorkoutFormPage} />
             </div>
         </Router>
     );

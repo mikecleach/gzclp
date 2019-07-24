@@ -1,15 +1,20 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link, RouteComponentProps } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, RouteComponentProps, withRouter } from "react-router-dom";
 import axios from "axios";
-// import UserInfo from "../components/UserInfo";
-// import UserRoutines from "../components/UserRoutines";
+
 import T1SetForm from "../components/T1SetForm";
 import { UserInterface } from "../interfaces/User";
 
-type TParams = { id: string };
+type TParams = { id: string; userid: string };
 
 interface WorkoutFormProps {
     match: RouteComponentProps<TParams>;
+}
+
+interface PartialRoutine {
+    id: number;
+    name: string;
+    description: string;
 }
 
 interface WorkoutFormState {
@@ -19,6 +24,8 @@ interface WorkoutFormState {
         reps: number;
     };
     weight: number;
+    workoutId: number;
+    routine: PartialRoutine;
 }
 interface T1set {
     id: number;
@@ -33,7 +40,7 @@ interface Workout {
     T1set: T1set[];
 }
 
-export default class WorkoutFormPage extends Component<RouteComponentProps<TParams>, WorkoutFormState> {
+class WorkoutFormPage extends Component<RouteComponentProps<TParams>, WorkoutFormState> {
     constructor(props: RouteComponentProps<TParams>) {
         super(props);
 
@@ -43,21 +50,43 @@ export default class WorkoutFormPage extends Component<RouteComponentProps<TPara
                 sets: 5,
                 reps: 3
             },
-            weight: 0
+            weight: 0,
+            workoutId: 0,
+            routine: { id: 0, name: "", description: "" }
         };
+
+        this.handleFinishWorkout = this.handleFinishWorkout.bind(this);
     }
-    componentDidMount() {
-        axios.get(`/lastWorkout/${this.props.match.params.id}`).then(result => {
-            if (result.data.reason == "No previous workout found.") {
-                const emptyWorkout = {
-                    id: 0,
-                    T1set: []
-                };
-                this.determineNewSetReps(emptyWorkout, true);
-            } else {
-                this.determineNewSetReps(result.data[0]);
-            }
-        });
+
+    async componentDidMount() {
+        let newWorkoutResult;
+        let lastWorkoutResult;
+        try {
+            lastWorkoutResult = await axios.get(`/lastWorkout/${this.props.match.params.id}`);
+
+            newWorkoutResult = await axios.post("/workout/", { routine: this.props.match.params.id });
+        } catch (error) {
+            console.log(error);
+
+            lastWorkoutResult = { data: {} };
+            newWorkoutResult = { data: {} };
+        }
+
+        this.setState({ workoutId: newWorkoutResult.data.workoutId, routine: newWorkoutResult.data.routine });
+
+        if (lastWorkoutResult.data.reason == "No previous workout found.") {
+            const emptyWorkout = {
+                id: 0,
+                T1set: []
+            };
+            this.determineNewSetReps(emptyWorkout, true);
+        } else {
+            this.determineNewSetReps(lastWorkoutResult.data[0]);
+        }
+    }
+
+    handleFinishWorkout(event: React.MouseEvent) {
+        this.props.history.push(`/user/${this.props.match.params.userid}`);
     }
 
     determineNewSetReps(data: Workout, override = false) {
@@ -182,7 +211,7 @@ export default class WorkoutFormPage extends Component<RouteComponentProps<TPara
 
         this.setState({
             isLoading: false,
-            weight: data.T1set[0].weight
+            weight: data.T1set[0] && data.T1set[0].weight ? data.T1set[0].weight : 0
         });
     }
 
@@ -191,10 +220,23 @@ export default class WorkoutFormPage extends Component<RouteComponentProps<TPara
             return <p>Loading...</p>;
         } else {
             const setForms = [...Array(this.state.T1Template.sets)].map((e, i) => {
-                return <T1SetForm order={i} weight={this.state.weight} reps={this.state.T1Template.reps} completed={false} />;
+                return <T1SetForm workoutId={this.state.workoutId} order={i} weight={this.state.weight} reps={this.state.T1Template.reps} completed={false} />;
             });
 
-            return <div className="workout-form-page-container pure-u-22-24">{setForms}</div>;
+            return (
+                <div className="workout-form-page-container pure-u-22-24">
+                    <div className="routine-header-container">
+                        <h3>Routine: {this.state.routine.name}</h3>
+                        <p>{this.state.routine.description}</p>
+                        <button onClick={this.handleFinishWorkout} className="pure-button pure-button-primary">
+                            Finish Workout
+                        </button>
+                    </div>
+                    <div className="forms-container">{setForms}</div>
+                </div>
+            );
         }
     }
 }
+
+export default withRouter(WorkoutFormPage);

@@ -7,6 +7,7 @@ interface T1SetFormState {
     weight: number;
     reps: number;
     completed: boolean;
+    submitted: boolean;
 }
 
 interface T1SetFormProps {
@@ -14,13 +15,14 @@ interface T1SetFormProps {
     weight: number;
     reps: number;
     completed: boolean;
+    workoutId: number;
 }
 
 class T1SetForm extends Component<T1SetFormProps, T1SetFormState> {
     constructor(props: T1SetFormProps) {
         super(props);
 
-        this.state = Object.assign({}, props);
+        this.state = Object.assign({}, props, { submitted: false });
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,12 +40,13 @@ class T1SetForm extends Component<T1SetFormProps, T1SetFormState> {
 
     async handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        // try {
-        //     let result = await axios.post("/user/", { username: this.state.username, email: this.state.email });
-        //     console.log(result.data);
-        // } catch (error) {
-        //     this.setState({ errorMessage: error.response.data.reason });
-        // }
+        try {
+            let result = await axios.post("/t1set/", { ...this.state });
+            this.setState({ submitted: true });
+            console.log(result.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     render() {
@@ -64,7 +67,7 @@ class T1SetForm extends Component<T1SetFormProps, T1SetFormState> {
                             </label>
                         </div>
                         <div className="pure-u-1-3 vert-align vertical-align">
-                            <input type="submit" value="Complete" className="pure-button pure-button-primary pure-input-1" />
+                            <input type="submit" value="Complete" disabled={this.state.submitted} className="pure-button pure-button-primary pure-input-1" />
                         </div>
                     </fieldset>
                 </form>

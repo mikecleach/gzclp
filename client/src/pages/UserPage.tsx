@@ -44,7 +44,7 @@ export default class UserPage extends Component<RouteComponentProps<TParams>, Us
             return (
                 <div className="user-page-container pure-u-22-24">
                     <UserInfo user={this.state.user} />
-                    <UserRoutines user={this.state.user} />
+                    <UserRoutines user={this.state.user} userid={this.props.match.params.id} />
                 </div>
             );
         }

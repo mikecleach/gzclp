@@ -5,3 +5,7 @@
 .vert-align.vertical-align {
     vertical-align: baseline;
 }
+
+.routine-header-container {
+    text-align: center;
+}
