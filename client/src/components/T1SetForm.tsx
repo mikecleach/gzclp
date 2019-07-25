@@ -57,13 +57,20 @@ class T1SetForm extends Component<T1SetFormProps, T1SetFormState> {
                         <div className="pure-u-1-4 vert-align vertical-align">
                             <label htmlFor="weight">
                                 Weight
-                                <input type="text" name="weight" onChange={this.handleChange} value={this.state.weight} className="pure-input-1" />
+                                <input
+                                    type="text"
+                                    pattern="[0-9]*"
+                                    name="weight"
+                                    onChange={this.handleChange}
+                                    value={this.state.weight}
+                                    className="pure-input-1"
+                                />
                             </label>
                         </div>
                         <div className="pure-u-1-4 vert-align vertical-align">
                             <label htmlFor="reps">
                                 Reps
-                                <input type="text" name="reps" onChange={this.handleChange} value={this.state.reps} className="pure-input-1" />
+                                <input type="text" pattern="[0-9]*" name="reps" onChange={this.handleChange} value={this.state.reps} className="pure-input-1" />
                             </label>
                         </div>
                         <div className="pure-u-1-3 vert-align vertical-align">
